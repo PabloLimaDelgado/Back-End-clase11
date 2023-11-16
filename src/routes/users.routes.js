@@ -1,11 +1,11 @@
 import { Router } from "express";
 import { usersManager } from "../managers/usersManager.js";
 //import { hashData, compareData } from "../utils.js";
-import passport from "passport";
+//import passport from "passport";
 
 const router = Router();
 
-router.get("/:idUser", async (req, res) => {
+/*router.get("/:idUser", async (req, res) => {
   const { idUser } = req.params;
 
   try {
@@ -16,7 +16,7 @@ router.get("/:idUser", async (req, res) => {
   }
 });
 
-/*router.post("/", async (req, res) => {
+router.post("/", async (req, res) => {
   const { password } = req.body;
 
   try {
@@ -52,36 +52,5 @@ router.post("/login", async (req, res) => {
     res.status(500).json({ error });
   }
 }); */
-
-// SINGUP - LOGIN - PASSPORT
-router.post(
-  "/singup",
-  passport.authenticate("singup", {
-    successRedirect: "/home",
-    failureRedirect: "/error",
-  })
-);
-
-router.post(
-  "/login",
-  passport.authenticate("login", {
-    successRedirect: "/home",
-    failureRedirect: "/error",
-  })
-);
-
-//GITHUB
-router.get(
-  "/auth/github",
-  passport.authenticate("github", { scope: ["user:email"] })
-);
-
-router.get(
-  "/github",
-  passport.authenticate("github", {
-    failureRedirect: "/error",
-    successMessage: "/home",
-  })
-);
 
 export default router;

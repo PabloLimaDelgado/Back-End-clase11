@@ -65,12 +65,11 @@ passport.use(
     {
       clientID: "Iv1.00b42f4fc1341b64",
       clientSecret: "7382ee911778fb3b364322c5b4e243e38721a91e",
-      callbackURL: "http://localhost:8080/api/users/github",
+      callbackURL: "http://localhost:8080/api/sessions/github",
     },
     async (accessToken, refreshToken, profile, done) => {
-      console.log(profile);
       try {
-        const userDB = usersManager.getByEmail(profile.email);
+        const userDB = usersManager.getByEmail(profile._json.email);
 
         //LOGIN
         if (userDB) {
@@ -83,9 +82,9 @@ passport.use(
 
         //SINGUP
         const newUser = {
-          first_name: "prueba",
-          last_name: "test",
-          email: profile.email,
+          first_name: profile._json.name.split(" ")[0],
+          last_name: profile._json.name.split(" ")[1] || "",
+          email: profile._json.email || profile.emails[0].value,
           password: "abc",
           from_github: true,
         };
@@ -94,7 +93,7 @@ passport.use(
         done(null, createdUser);
       } catch (error) {
         done(error);
-      }
+      } 
     }
   )
 );

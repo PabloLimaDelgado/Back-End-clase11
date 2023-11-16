@@ -11,6 +11,7 @@ import "./db/dbConfig.js";
 
 import usersRouter from "./routes/users.routes.js";
 import viewsRouter from "./routes/views.routes.js";
+import sessionsRouter from "./routes/sessions.routes.js";
 
 const app = express();
 
@@ -40,6 +41,7 @@ app.set("view engine", "handlebars");
 //ROUTES
 app.use("/api/users", usersRouter);
 app.use("/", viewsRouter);
+app.use("/api/sessions", sessionsRouter);
 
 app.listen(8080, () => {
   console.log("Escuchando al puerto 8080");
