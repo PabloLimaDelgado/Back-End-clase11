@@ -3,6 +3,8 @@ import { usersManager } from "./managers/usersManager.js";
 import { hashData, compareData } from "./utils.js";
 import { Strategy as LocalStrategy } from "passport-local";
 import { Strategy as GituhbStrategy } from "passport-github2";
+import { ExtractJwt, Strategy as JWTStrategy } from "passport-jwt";
+const JWT_SECRET = "jwtSECRET";
 
 //LOCAL STRATEGY
 passport.use(
@@ -93,7 +95,27 @@ passport.use(
         done(null, createdUser);
       } catch (error) {
         done(error);
-      } 
+      }
+    }
+  )
+);
+
+//JWT
+
+const fromCookies = (req) => {
+  return req.cookies.token;
+};
+
+passport.use(
+  "jwt",
+  new JWTStrategy(
+    {
+      secretOrKey: JWT_SECRET,
+      jwtFromRequest: ExtractJwt.fromExtractors([fromCookies]),
+    },
+    async (jwt_payload, done) => {
+      //console.log(jwt_payload);
+      done(null, jwt_payload);
     }
   )
 );

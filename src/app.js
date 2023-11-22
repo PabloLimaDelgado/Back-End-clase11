@@ -9,9 +9,12 @@ import { __dirname } from "./utils.js";
 import "./passport.js";
 import "./db/dbConfig.js";
 
+import { clientsCustomRouter } from "./routes/clientsCustom.routes.js";
+
 import usersRouter from "./routes/users.routes.js";
 import viewsRouter from "./routes/views.routes.js";
 import sessionsRouter from "./routes/sessions.routes.js";
+import clientsRouter from "./routes/clients.routes.js";
 
 const app = express();
 
@@ -42,6 +45,8 @@ app.set("view engine", "handlebars");
 app.use("/api/users", usersRouter);
 app.use("/", viewsRouter);
 app.use("/api/sessions", sessionsRouter);
+//app.use("/api/clients", clientsRouter);
+app.use("/api/clients", clientsCustomRouter.getRouter());
 
 app.listen(8080, () => {
   console.log("Escuchando al puerto 8080");
